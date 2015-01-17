@@ -59,11 +59,9 @@ __battery_osx() {
 					export curcap=$value;;
 				"ExternalConnected")
 					export extconnect=$value;;
-        "FullyCharged")
-          export fully_charged=$value;;
 			esac
 			if [[ -n $maxcap && -n $curcap && -n $extconnect ]]; then
-				if [[ "$curcap" == "$maxcap" || "$fully_charged" == "Yes" && $extconnect == "Yes"  ]]; then
+				if [[ "$curcap" == "$maxcap" ]]; then
 					return
 				fi
 				charge=$(( 100 * $curcap / $maxcap ))
@@ -128,7 +126,7 @@ __battery_osx() {
 
 
 		for i in `seq $TMUX_POWERLINE_SEG_BATTERY_NUM_HEARTS`; do
-			if [ $perc -lt 99 ]; then
+			if [ $perc -lt 100 ]; then
 				echo -n $HEART_EMPTY
 			else
 				echo -n $HEART_FULL
